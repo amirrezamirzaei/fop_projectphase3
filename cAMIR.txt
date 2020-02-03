@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+typedef struct{
+struct cAMIR *next;
+char type[100];
+char content[100];
+}cAMIR;
+void additemtoobject(cAMIR **head,char *a,char *b);
+void printunformatted(cAMIR *x);
+char* getitem(cAMIR *x,char *y);
+cAMIR *deleteitem(cAMIR *head,char *y);
+int main()
+{
+printf("helloworld!");
+}
+void additemtoobject(cAMIR **head,char *a,char *b)
+{
+    cAMIR *newnode=(cAMIR*)malloc(sizeof(cAMIR));
+    cAMIR *last=*head;
+    strcpy(newnode->type,a);
+    strcpy(newnode->content,b);
+    newnode->next=NULL;
+    if(*head==NULL)
+    {
+        *head=newnode;
+        return;
+    }
+    while(last->next!=NULL)
+    last=last->next;
+    last->next=newnode;
+}
+void printunformatted(cAMIR *x)
+{
+    if(x==NULL)
+        return;
+     while(x->next!=NULL)
+     {
+        printf("type:%s content:%s\n",x->type,x->content);
+        x=x->next;
+     }
+       printf("type:%s content:%s\n",x->type,x->content);
+}
+char* getitem(cAMIR *x,char *y)
+{
+    if(x==NULL)
+        return(NULL);
+while(x->next!=NULL)
+     {
+        if(strcmp(x->type,y)==0)
+            return(x->content);
+           x=x->next;
+     }
+        if(strcmp(x->type,y)==0)
+            return(x->content);
+        return(NULL);
+}
+cAMIR *deleteitem(cAMIR *head,char *y)
+{
+   if(head==NULL)
+    return(NULL);
+
+   if(strcmp(y,head->type)==0)
+   {
+    cAMIR *tmp;
+    tmp=head->next;
+    free(head);
+    return(tmp);
+   }
+   head->next=deleteitem(head->next,y);
+   return (head);
+}
