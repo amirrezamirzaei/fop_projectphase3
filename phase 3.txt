@@ -1,0 +1,47 @@
+phase 3 server isnt very different from the phase 2 server. it only difference is that it uses a struct named cAMIR instead of cJSON.
+it also uses some new functions to elimanate the need for cJSON. now we will talk about cAMIR and its functions.
+
+1.1-CAMIR
+cAMIR is a simple linked list. the defenition for it is:
+typedef struct{
+struct cAMIR *next;
+char type[100];
+char content[100];
+}cAMIR;
+each node contain two strings.the type string serves as the label of the node and the content string is what the node conteains.
+
+1.2-cAMIR FUNCTIONS
+
+void additemtoobject(cAMIR **head,char *a,char *b);
+this function will add a node to a cAMIR
+
+char* getitem(cAMIR *x,char *y);
+this function will receive a cAMIR object and a string. it will return the content string of the first node that contain the string(char *y). if there are no match it will return a NULL pointer.
+
+cAMIR *deleteitem(cAMIR *head,char *y);
+this recursive function will receive a cAMIR object and a string. it will delete the first node containing the string and will return a pointer to a cAMIR object without the deleted node. if there are no mathches it will return the cAMIR object pointer.
+
+void printunformatedd(cAMIR *x)
+this function will receive a cAMIR object and print every nodes in the object.this function is not used in the server and is only for debugging.
+
+1.3-cAMIR DATABASE
+
+we talked about the database used by the server in phase 2 document.the databases used in phase 2 were cJSON objects but in phase 3 they are cAMIR objects.the cAMIR objects are as followed.
+
+     1-pmemberauthtoken
+"authtoken":"username" , ...
+this cAMIR item stores every authtoken that the server generates with the username which is assigned to it.
+
+     2-pmembersid
+"username":"0 or 1",...
+this cAMIR item stores the status of each user (0 for offline , 1 for online)
+
+     3-pmemberactivechannel
+ "username":"channel name" , ...
+this cAMIR object stores the channel that each member is using.
+
+     4-pmemberrefreshid
+ "username":"int" , ...
+this cAMIR object stores the number of messages seen in a channel by a user.
+
+
